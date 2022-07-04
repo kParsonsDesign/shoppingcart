@@ -64,7 +64,7 @@ const AvailableItems = ({ storeStock, setStoreStock, cartItems, setCartItems, re
           {storeStock.map((product, index) => {
             let productid = product.pid;
             return (
-              <div className="col-sm-6 col-lg-4 card p-1" key={index}>
+              <div className="col-sm-6 col-md-4 card p-1" key={index}>
                 <img className="card-img-top" style={{maxWidth:'20rem'}}
                   src={product.image} alt={product.brand + " " + product.name} 
                 />
