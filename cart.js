@@ -6,7 +6,6 @@ const CustomerCart = ({ cartItems, setCartItems, storeStock, setStoreStock, tota
     array.filter((item, index) => {
       if (item.pid === pid) {
         cartindex = index;
-        console.log(cartindex);
         return true;
       };
       return false;
@@ -71,7 +70,7 @@ const CustomerCart = ({ cartItems, setCartItems, storeStock, setStoreStock, tota
                 <button className='accordion-button collapsed p-2' type='button' data-bs-toggle="collapse" data-bs-target={'#collapse' + index} aria-expanded="false" aria-controls={'collapse' + index}>
                   <span className='col-6'>{product.name}</span>
                   <span className='col-2'>({product.incart})</span>
-                  <span className='col-3 text-end pe-3'>${product.price * product.incart}</span>
+                  <span className='col-3 text-end pe-3'>${((product.price * product.incart).toFixed(2))}</span>
                 </button>
               </h6>
               {/* Cart Item Body - Dropdown */}
