@@ -3,11 +3,11 @@ const AvailableItems = ({ storeStock, setStoreStock, cartItems, setCartItems, re
   const addItemToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    // console.log(e);
+    console.log(e);
     const store = [...storeStock];
     const cart = [...cartItems];
     const qty = Number(e.target.form[0].value);
-    const pid = e.target.form.id;
+    const pid = e.target.attributes.productid.nodeValue;
     const index = Number(e.target.form.attributes.productindex.nodeValue);
     
     
@@ -40,6 +40,9 @@ const AvailableItems = ({ storeStock, setStoreStock, cartItems, setCartItems, re
     // remove qty ammount from storeStock
     store[index].currentstock = store[index].originalstock - store[index].incart;
     setStoreStock(store);
+
+    // reset input qty to 1
+    document.getElementById('qty-' + pid).value = '1';
   }
 
   // async function getProducts() {
@@ -79,10 +82,10 @@ const AvailableItems = ({ storeStock, setStoreStock, cartItems, setCartItems, re
                     {product.currentstock > 0 && <span>In Stock: {product.currentstock}</span>}
                   </p>
                   {product.currentstock > 0 ? 
-                  <form id={product.pid} productindex={index}>
+                  <form id={'add-' + product.pid} productindex={index}>
                     <div className="input-group">
-                      <input id={product.pid} className='form-control' type="number" size="2" min="1" max={product.currentstock} defaultValue="1" />
-                      <button type="button" form={product.pid} id={'btn-' + productid} className='btn btn-outline-primary' onClick={addItemToCart}>Add to Cart</button>
+                      <input id={'qty-' + product.pid} className='form-control' type="number" size="2" min="1" max={product.currentstock} defaultValue="1" />
+                      <button type="button" form={'add-' + product.pid} id={'btn-' + product.pid} productid={product.pid} className='btn btn-outline-primary' onClick={addItemToCart}>Add to Cart</button>
                     </div>
                   </form>
                   : <p className='text-secondary'>Sorry, item is out of stock.</p>}
