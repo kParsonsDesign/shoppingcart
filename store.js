@@ -38,7 +38,8 @@ const AvailableItems = ({ storeStock, setStoreStock, cartItems, setCartItems, re
     }
     
     // remove qty ammount from storeStock
-    storeStock[index].currentstock = storeStock[index].originalstock - storeStock[index].incart;
+    store[index].currentstock = store[index].originalstock - store[index].incart;
+    setStoreStock(store);
   }
 
   // async function getProducts() {

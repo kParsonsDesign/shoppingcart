@@ -1,4 +1,4 @@
-const CustomerCart = ({ cartItems, setCartItems, storeStock, setStoreStock, totalBill, setTotalBill, recalculateTotal }) => {
+const CustomerCart = ({ cartItems, setCartItems, storeStock, setStoreStock, totalBill, setTotalBill, storeIncome, setStoreIncome, recalculateTotal }) => {
 
   // function to check for product with matching id
   function getCartIndex(pid, array) {
@@ -45,7 +45,12 @@ const CustomerCart = ({ cartItems, setCartItems, storeStock, setStoreStock, tota
       <h3 className='bg-secondary p-2 rounded-top' style={{"--bs-bg-opacity": 0.1}}>Your Cart</h3>
 
       <div className='cart-contents-container'>
-      <CheckOut cartItems={cartItems} totalBill={totalBill} setTotalBill={setTotalBill} recalculateTotal={recalculateTotal} />
+      <CheckOut cartItems={cartItems} setCartItems={setCartItems} 
+        storeStock={storeStock} setStoreStock={setStoreStock}
+        totalBill={totalBill} setTotalBill={setTotalBill} 
+        storeIncome={storeIncome} setStoreIncome={setStoreIncome} 
+        recalculateTotal={recalculateTotal} 
+      />
 
       <div className='cart-items-container'>
       {cartItems.length === 0 ? 
