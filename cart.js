@@ -1,40 +1,44 @@
 const CustomerCart = ({ cartItems, setCartItems, storeStock, setStoreStock, totalBill, setTotalBill, recalculateTotal }) => {
 
-  const qtyChange = (e) => {
-    // e.preventDefault();
-    const cart = [...cartItems];
-    const pid = e.target.attributes.pid.nodeValue;
-    const storeindex = e.target.attributes.storeindex.value;
-    console.log(storeindex);
-    console.log(e);
-    console.log(`e.target.value: ${e.target.value}`);
-    console.log(`e.target.value type: ${typeof e.target.value}`);
-    
-    // check for product with matching id
-    let cartIndex;
-    function filterById(item, index) {
+  // function to check for product with matching id
+  function getCartIndex(pid, array) {
+    let cartindex;
+    array.filter((item, index) => {
       if (item.pid === pid) {
-        cartIndex = index;
+        cartindex = index;
+        console.log(cartindex);
         return true;
       };
       return false;
-    }
-    cart.filter(filterById);
-    
-    // check if store availability is > requested qty
+    });
+    return cartindex;
+  }
+  
+  const qtyChange = (e) => {
+    // get product and cart info
+    const cart = [...cartItems];
+    const pid = e.target.attributes.pid.nodeValue;
+    const storeindex = e.target.attributes.storeindex.value;
+    const cartIndex = getCartIndex(pid, cart);
+    // product store avaiabile qty is checked by input max
     // update item cart qty
-    console.log(`cartIndex: ${cartIndex}`);
-    console.log(cart);
     cart[cartIndex].incart = e.target.value;
     setCartItems(cart);
     // update store availability
     storeStock[storeindex].currentstock = storeStock[storeindex].originalstock - storeStock[storeindex].incart;
   }
 
-  const handleDelete = () => {
-    // delete amount from cartItems product qty
-    // delete product from cartItems (don't need above?)
+  const handleDelete = (e) => {
+    // get product and cart info
+    const pid = e.target.attributes.pid.nodeValue;
+    const storeindex = e.target.attributes.storeindex.nodeValue;
+    const cart = [...cartItems];
+    const cartIndex = getCartIndex(pid, cart);
+    // delete product from cartItems
+    cart.splice(cartIndex, 1);
+    setCartItems(cart);
     // update store stock to originalstock
+    storeStock[storeindex].currentstock = storeStock[storeindex].originalstock;
   }
 
   return (
@@ -83,7 +87,7 @@ const CustomerCart = ({ cartItems, setCartItems, storeStock, setStoreStock, tota
                         {/* <button className='btn btn-outline-secondary'>Update</button> */}
                       </span>
                     </div> 
-                    <button className='btn btn-outline-danger btn-sm cart-product-delete'>Delete</button>
+                    <button className='btn btn-outline-danger btn-sm cart-product-delete' onClick={handleDelete} pid={product.pid} storeindex={product.storeindex}>Delete</button>
                   </div>
                 </div>
               </div>
@@ -95,27 +99,3 @@ const CustomerCart = ({ cartItems, setCartItems, storeStock, setStoreStock, tota
     </div>
   );
 };
-
-const cartProducts = [
-  {
-    name: "Raspberries",
-    type: "Red",
-    brand: "Driscoll's",
-    size: "6 oz",
-    origin: { country: "USA", state: "CA", city: "Oxnard" },
-    price: 4.99,
-    instock: 2,
-    image:
-      "https://www.freshdirect.com/media/images/product/fruit_2/br_raspbrry_z.jpg?lastModify=2016-11-29",
-  },
-  {
-    name: "Grapes",
-    type: "Red Seedless",
-    brand: "Fresh Link",
-    size: "32 oz",
-    origin: { country: "USA", state: "CA", city: "Visalia" },
-    price: 4.99,
-    instock: 1,
-    image: 'http://specialtyproduce.com/sppics/1223.png'
-  }
-];
