@@ -57,6 +57,13 @@
     "store";
   }
 
+  .cart-container {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 5;
+  }
+
   .cart-contents-container {
     display: grid;
     grid-template-columns: 1fr 3fr;
